@@ -1,0 +1,7 @@
+{
+    "home": {
+        "import": "from controllers.home import Home",
+        "object": "Home()",
+        "kv": "views/home.kv"
+    }
+}

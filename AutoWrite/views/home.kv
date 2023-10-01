@@ -1,0 +1,247 @@
+#: import asynckivy asynckivy
+
+<CustomButton>
+    md_bg_color: root.bg_color
+    size_hint_y: None
+    height: dp(50)
+    size_hint_x: None
+    width: dp(110)
+    elevation: 2
+    radius: [10]
+    on_press: print("me")
+    Icon:
+        icon: root.icon
+        pos_hint: {'center_x': 0.2,'center_y': 0.5}
+        text_color: root.icon_color
+    Text:
+        text: root.text
+        halign: "right"
+        pos_hint: {'center_x': 0.4,'center_y': 0.5}
+        text_color: root.text_color
+
+
+
+<Content>
+    id: content_widget_id
+    # ripple_scale: 8
+    # md_bg_color: app.colors.black
+    # shortcut: shortcut.text
+    # shortcut_info: shortcut_info.text
+    # started: started.text
+    radius: [10]
+    md_bg_color: app.colors.white
+    size_hint_y: None
+    height: dp(120)
+    size_hint_x: .88
+    elevation: 2
+    # on_press: print(len(details.text))
+    Text:
+        id: shortcut_info
+        text: root.shortcut_info
+        text_color: app.colors.black
+        font_name: app.fonts.medium
+        font_size: app.fonts.size.h5
+        halign: "center"
+        shorten_from: "right"
+        size_hint_x: .85
+        pos_hint: {'center_x': 0.5,'center_y': 0.8}
+    MDSeparator:
+        size_hint_x: None
+        width: root.width
+        pos_hint: {'center_x': 0.5,'center_y': 0.63}
+
+    MyInput:
+        id: shortcut
+        # hint_text: root.shortcut
+        text: root.shortcut
+        text_color: app.colors.black
+        font_name: app.fonts.medium
+        font_size: app.fonts.size.h6
+        pos_hint: {'center_x': 0.25,'center_y': 0.3}
+        background_color: app.colors.grey
+        size_hint_y: None
+        height: dp(40)
+        # on_text: save.disabled = False
+        # disabled: True
+
+    # FlatButton:
+    #     id: started
+    #     text: "start"
+    #     text_color: app.colors.white
+    #     md_bg_color: app.colors.primary
+    #     font_name: app.fonts.bold
+    #     font_size: app.fonts.size.h5
+    #     shorten: True
+    #     halign: "center"
+    #     size_hint_x: .3
+    #     size_hint_y: .08
+    #     pos_hint: {'center_x': 0.8,'center_y': 0.3}
+    #     on_press:
+    #         self.text = "stop" if self.text == "start" else "start"
+    #         # self.text = "stop" if root.started is True else "stop"
+    #         self.md_bg_color = app.colors.primary if self.text == "start" else "red"
+    #         app.start_process(shortcut.text, shortcut_info.text, self.text)
+    #         # asynckivy.start(app.start_process)
+    #     # padding: dp(20)
+    IconButton:
+        id: save
+        icon: "content-save"
+        icon_color: app.colors.primary
+        # icon_size: app.fonts.size.h5
+        pos_hint: {'center_x': 0.5,'center_y': 0.3}
+        # disabled: True
+        on_press:
+            app.edit_shortcut_combination(shortcut.text, shortcut_info.text)
+    IconButton:
+        id: start
+        icon: "play"
+        icon_color: "green"
+        # icon_size: app.fonts.size.h5
+        pos_hint: {'center_x': 0.9,'center_y': 0.3}
+        on_press:
+            self.icon = "stop" if self.icon == "play" else "play"
+            # self.text = "stop" if root.started is True else "stop"
+            self.icon_color = "green" if self.icon == "play" else "red"
+            app.start_process(shortcut.text, shortcut_info.text, self.icon)
+    # IconButton:
+    #     id: edit
+    #     icon: "content-save-edit"
+    #     icon_color: app.colors.primary
+    #     font_size: app.fonts.size.h5
+    #     pos_hint: {'center_x': 0.75,'center_y': 0.3}
+    #     on_press:
+    #         shortcut.disabled = "False"
+            # app.edit_shortcut_combination(shortcut.text, shortcut_info.text)
+    IconButton:
+        id: delete
+        icon: "delete"
+        icon_color: "red"
+        # icon_size: app.fonts.size.h5
+        pos_hint: {'center_x': 0.76,'center_y': 0.3}
+        on_press:
+            app.remove_hot_key_from_db(shortcut.text, content_widget_id)
+
+<AddNewShortcut>
+    # orientation: "vertical"
+    # spacing: "5dp"
+    size_hint_y: None
+    height: "390dp"
+    md_bg_color: "white"
+    # md_bg_color: app.white if app.get_theme() == "light" else "#333333"
+
+    MyTextField:
+        id: shortcut_key
+        hint_text: "shortcut keys"
+        helper_text: "example: 'ctrl+shift+a'"
+        helper_text_mode: 'on_focus'
+        helper_text_color_focus: app.colors.black
+        helper_text_color_normal: app.colors.black
+        line_color_focus: app.colors.black
+        line_color_normal: app.colors.black
+        hint_text_color_focus: app.colors.black
+        hint_text_color_normal: app.colors.black
+        text_color_focus: app.colors.black
+        text_color_normal: app.colors.black
+        size_hint_x: .8
+        active_line: True
+        # mode: "rectangle"
+        # height: dp(400)
+        pos_hint: {'center_x':.5,'center_y': 0.8}
+    MyTextField:
+        id: shortcut_info
+        hint_text: "shortcut info"
+        helper_text: "example: 'Good morning' "
+        helper_text_mode: 'on_focus'
+        helper_text_color_focus: app.colors.black
+        helper_text_color_normal: app.colors.black
+        line_color_focus: app.colors.black
+        line_color_normal: app.colors.black
+        hint_text_color_focus: app.colors.black
+        hint_text_color_normal: app.colors.black
+        text_color_focus: app.colors.black
+        text_color_normal: app.colors.black
+        fill_color_focus: app.colors.grey
+        fill_color_normal: app.colors.grey
+        size_hint_x: .8
+        active_line: True
+        # mode: "rectangle"
+        size_hint_y: .3
+        multiline: True
+        pos_hint: {'center_x':.5,'center_y': 0.5}
+    FlatButton:
+        text: "Proceed"
+        text_color: app.colors.white
+        md_bg_color: app.colors.black
+        line_color: app.colors.black
+        font_name: app.fonts.bold
+        font_size: app.fonts.size.h5
+        pos_hint: {'center_x':.5,'center_y': 0.2}
+        size_hint_y: .08
+        on_release:
+            app.close()
+            app.write_new_hotkey_to_db(shortcut_info.text, shortcut_key.text)
+        # on_press:
+        #     asynckivy.start(app.rewrite_budget(new_budget.text))
+    IconButton:
+        icon: "close"
+        pos_hint: {'center_x':.5,'center_y': .08}
+        icon_size: app.fonts.size.icon
+        icon_color: app.colors.warning
+        on_press: app.close()
+
+
+
+
+<Home>
+    MDFloatLayout:
+        # orientation: 'vertical'
+        MDAnchorLayout:
+            anchor_y: 'top'
+
+            MDBoxLayout:
+                orientation: 'horizontal'
+                size_hint_y: .12
+                spacing: dp(20)
+                padding: dp(5), dp(10)
+
+                IconButton:
+                    icon: "logout"
+                    icon_size: app.fonts.size.icon
+                    on_press: app.stop()
+                    icon_color: "red"
+
+                Text:
+                    text: "AutoWrite"
+                    shorten: False
+                    font_name: app.fonts.medium
+                    font_size: app.fonts.size.h1
+
+                CustomButton:
+                    text: "Add New"
+                    icon: "plus"
+                    bg_color: app.colors.primary
+                    text_color: app.colors.white
+                    icon_color: app.colors.white
+                    on_press: app.display_shortcut_popup()
+    Text:
+        text: "Shortcuts"
+        shorten: False
+        font_name: app.fonts.medium
+        font_size: app.fonts.size.h3
+        pos_hint: {'center_x': .55, 'center_y': .85}
+
+    MDScrollView:
+        # md_bg_color: "red"
+        pos_hint: {'center_x': .5, 'center_y': .42}
+        size_hint_y: .82
+
+        MDGridLayout:
+            # md_bg_color: "blue"
+            id: hotkey_container
+            cols: 1
+            adaptive_height: True
+            spacing: dp(15)
+            padding: dp(10)
+            height: self.minimum_height
+            row_default_height:'60dp'
+            size_hint_y: None
